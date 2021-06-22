@@ -14,19 +14,18 @@ import java.util.List;
 @Controller
 public class PitchViewController {
 
-    @Autowired
-    private PitchPdfUtils pitchPdfUtils;
 
     @GetMapping("/view/slides")
     public String showViewPage(
             Model model,
             @ModelAttribute("filePath") final String filePath,
-            @ModelAttribute("fileName") final String fileName) throws IOException {
+            @ModelAttribute("fileName") final String fileName,
+            @ModelAttribute("images") final List<String> imageFileNames) throws IOException {
         if (filePath == null || filePath.isEmpty()) {
             return "redirect:/";
         }
         model.addAttribute("filePath", filePath);
-        List<String> imageFileNames = pitchPdfUtils.convertPdfToImage(filePath, fileName);
+
         model.addAttribute("images", imageFileNames);
         model.addAttribute("filePath", filePath);
         return "view/slides";
